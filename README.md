@@ -1,16 +1,167 @@
-# React + Vite
+# 🎮 Checkpoint
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Checkpoint** is a modern game tracking web app built with React.
+Discover titles, organize your library, and track your gaming progress — all in a clean, structured dashboard.
 
-Currently, two official plugins are available:
+Inspired by the simplicity of Letterboxd, but designed for video games.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚧 Status
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This project is currently a **Work in Progress (WIP)**.
 
-## Expanding the ESLint configuration
+The current focus is on:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+* Frontend architecture
+* Scalable component structure
+* Clean design system
+* Preparing for API and backend integration
+
+---
+
+## ✨ Features (Current)
+
+* Dark-themed dashboard UI
+* Featured Game hero section
+* Popular Games list
+* New Releases list
+* Top Rated section with rating badges
+* Reusable card components
+* Responsive layout foundation
+* Design token-based theming system
+
+---
+
+## 🛠 Planned Features
+
+### Phase 1 — API Integration
+
+* Integrate RAWG API
+* Dynamic game data
+* Game detail pages (`/game/:id`)
+* Search functionality
+* Loading and error states
+
+### Phase 2 — Local Tracking
+
+* Add to Library
+* Track play status (Playing / Completed)
+* Start & finish dates
+* 1–5 star ratings
+* Short text reviews (stored locally)
+
+### Phase 3 — Full Stack
+
+* User authentication
+* Database persistence
+* Public reviews
+* User profiles
+* Social features
+
+---
+
+## 🧱 Tech Stack
+
+**Frontend**
+
+* React (Vite)
+* React Router
+* CSS Custom Properties (Design Tokens)
+
+**Planned Backend**
+
+* Node.js + Express (or similar)
+* PostgreSQL / MongoDB
+* JWT Authentication
+
+---
+
+## 🎨 Design System
+
+Checkpoint uses a structured dark theme built with CSS variables.
+
+```css
+--bg-main: #190019;
+--bg-surface: #2b124c;
+--bg-panel: #522b5b;
+--bg-accent: #854f6c;
+--text-primary: #fbe4d8;
+--text-secondary: #dfb6b2;
+```
+
+### Design Principles
+
+* Layered dark theme
+* Clear visual hierarchy
+* Minimal and distraction-free layout
+* Reusable UI components
+* Scalable architecture
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+│
+├── api/              // API utilities (planned)
+├── components/       // Reusable UI components
+│   ├── common/
+│   └── game/
+├── pages/            // Route-level components
+├── hooks/            // Custom React hooks
+├── context/          // Global state
+├── utils/            // Helper functions
+│
+├── App.jsx
+└── main.jsx
+```
+
+This structure is designed to scale cleanly as the project grows into a full-stack application.
+
+---
+
+## 🚀 Getting Started
+
+### 1️⃣ Install Dependencies
+
+```bash
+npm install
+```
+
+### 2️⃣ Run Development Server
+
+```bash
+npm run dev
+```
+
+App runs at:
+
+```
+http://localhost:5173
+```
+
+---
+
+## 🎯 Project Goals
+
+* Build a production-style React application
+* Practice scalable frontend architecture
+* Integrate external APIs
+* Implement authentication and persistence
+* Develop a portfolio-ready full-stack project
+
+---
+
+## 📌 Long-Term Vision
+
+Checkpoint aims to become:
+
+* A centralized hub for tracking games across platforms
+* A clean alternative to cluttered gaming databases
+* A social review ecosystem for gamers
+* A polished full-stack portfolio project
+
+---
+
