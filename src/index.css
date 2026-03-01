@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
+
+:root {
+  --bg-main: #190019;
+  --bg-surface: #2b124c;
+  --bg-panel: #522b5b;
+  --bg-accent: #854f6c;
+  --text-primary: #fbe4d8;
+  --text-secondary: #dfb6b2;
+
+  font-family:
+    "Space Grotesk",
+    Segoe UI,
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: var(--text-primary);
+  background-color: var(--bg-main);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: var(--text-primary);
+  text-decoration: inherit;
+}
+a:hover {
+  color: var(--text-secondary);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--bg-main);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
