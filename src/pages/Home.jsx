@@ -19,6 +19,7 @@
 // ];
 
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   fetchPopularGames,
   fetchNewReleases,
@@ -111,7 +112,7 @@ function Home() {
         <article className="panel" id="popular">
           <div className="panel-heading">
             <h3>Popular Games</h3>
-            <a href="#">View All</a>
+            <Link to="/popular">View All</Link>
           </div>
           <ul className="item-list">
             {popularGames.map((game) => (
