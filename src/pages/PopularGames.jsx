@@ -7,14 +7,18 @@ const PopularGames = () => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const loadPopularGames = async () => {
       try {
         setLoading(true);
-        const data = await fetchPopularGames(50);
+        const data = await fetchPopularGames(25, currentPage);
         setGames(data.results ?? []);
+        setTotalPages(Math.ceil((data.count ?? 0) / 25));
         setError(null);
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } catch (err) {
         setError("Failed to load popular games. Please try again later.");
         console.error("Error fetching popular games:", err);
@@ -24,7 +28,7 @@ const PopularGames = () => {
     };
 
     loadPopularGames();
-  }, []);
+  }, [currentPage]);
 
   if (loading) {
     return (
@@ -46,7 +50,9 @@ const PopularGames = () => {
     <div className="popular-games-container">
       <h1 className="page-title">Popular Games</h1>
       <p>
-        <Link to="/">Back to Home</Link>
+        <Link to="/" className="back-link">
+          Back to Home
+        </Link>
       </p>
       <div className="games-grid">
         {games.map((game) => (
@@ -60,6 +66,25 @@ const PopularGames = () => {
             </p>
           </article>
         ))}
+      </div>
+      <div className="pagination">
+        <button
+          className="pagination-btn"
+          onClick={() => setCurrentPage((prev) => prev - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span className="pagination-info">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          className="pagination-btn"
+          onClick={() => setCurrentPage((prev) => prev + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

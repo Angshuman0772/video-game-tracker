@@ -7,7 +7,15 @@
 .page-title {
   font-size: 2.5rem;
   margin-bottom: 2rem;
-  color: var(text-primary);
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.back-link {
+  text-align: center;
+  display: block;
+  margin-bottom: 2.5rem;
+  color: var(--text-secondary);
 }
 
 .games-grid {
@@ -27,6 +35,44 @@
   color: #dc3545;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 3rem;
+  padding: 2rem 0;
+}
+
+.pagination-btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: var(--bg-hover);
+  border-color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
 @media (max-width: 768px) {
   .popular-games-container {
     padding: 1rem;
@@ -39,5 +85,19 @@
   .games-grid {
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 1rem;
+  }
+
+  .pagination {
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .pagination-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .pagination-info {
+    font-size: 1rem;
   }
 }

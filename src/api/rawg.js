@@ -4,9 +4,9 @@ const API_KEY = import.meta.env.VITE_RAWG_API_KEY;
 const formatDate = (date) => date.toISOString().split("T")[0];
 
 // Fetch popular games (most relevant/highest rated)
-export const fetchPopularGames = async (pageSize = 10) => {
+export const fetchPopularGames = async (pageSize = 10, page = 1) => {
   const response = await fetch(
-    `${BASE_URL}/games?key=${API_KEY}&ordering=-added&page_size=${pageSize}`,
+    `${BASE_URL}/games?key=${API_KEY}&ordering=-added&page_size=${pageSize}&page=${page}`,
   );
 
   if (!response.ok) {
