@@ -1,3 +1,5 @@
+// TODO: Fetch data from RAWG API instead of hardcoded arrays. See src/api/rawg.js for fetch functions.
+
 const popularGames = [
   { title: "Elder Realms VI", genre: "Action RPG", players: "1.8M players" },
   { title: "Cyber Streets 2099", genre: "Open World", players: "1.3M players" },
@@ -21,7 +23,7 @@ function Home() {
     <main className="home-page">
       <nav className="top-nav">
         <p className="brand">Checkpoint</p>
-        <div className="nav-links">
+        <div className="nav-middle">
           <a href="#popular">Popular Games</a>
           <a href="#releases">New Releases</a>
           <a href="#top-rated">Top Rated</a>

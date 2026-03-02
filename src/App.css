@@ -40,13 +40,13 @@
   font-weight: 700;
 }
 
-.nav-links {
+.nav-middle {
   display: flex;
   gap: 1rem;
   align-items: center;
 }
 
-.nav-links a {
+.nav-middle a {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -58,7 +58,7 @@
   transition: color 0.2s ease;
 }
 
-.nav-links a::after {
+.nav-middle a::after {
   content: "";
   position: absolute;
   left: 0;
@@ -72,13 +72,13 @@
   transition: transform 0.2s ease;
 }
 
-.nav-links a:hover,
-.nav-links a:focus-visible {
+.nav-middle a:hover,
+.nav-middle a:focus-visible {
   color: var(--text-primary);
 }
 
-.nav-links a:hover::after,
-.nav-links a:focus-visible::after {
+.nav-middle a:hover::after,
+.nav-middle a:focus-visible::after {
   transform: scaleX(1);
 }
 
@@ -234,7 +234,7 @@
     text-align: center;
   }
 
-  .nav-links {
+  .nav-middle {
     width: 100%;
     justify-content: center;
     flex-wrap: wrap;
