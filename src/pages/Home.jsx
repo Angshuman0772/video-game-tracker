@@ -1,23 +1,3 @@
-// TODO: Fetch data from RAWG API instead of hardcoded arrays. See src/api/rawg.js for fetch functions.
-
-// const popularGames = [
-//   { title: "Elder Realms VI", genre: "Action RPG", players: "1.8M players" },
-//   { title: "Cyber Streets 2099", genre: "Open World", players: "1.3M players" },
-//   { title: "Aether Rivals", genre: "Fighting", players: "980K players" },
-// ];
-
-// const newReleases = [
-//   { title: "Mythborne", date: "Mar 12, 2026", platform: "PC / PS5" },
-//   { title: "Velocity Drift X", date: "Apr 2, 2026", platform: "PC / Xbox" },
-//   { title: "Kingdoms of Ash", date: "May 18, 2026", platform: "PC / Switch 2" },
-// ];
-
-// const topRatedGames = [
-//   { title: "Hollow Frontier", score: "9.6", reviews: "42K reviews" },
-//   { title: "Legends Reborn", score: "9.4", reviews: "31K reviews" },
-//   { title: "Orbitfall", score: "9.2", reviews: "25K reviews" },
-// ];
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
