@@ -1,24 +1,76 @@
 // TODO: Fetch data from RAWG API instead of hardcoded arrays. See src/api/rawg.js for fetch functions.
 
-const popularGames = [
-  { title: "Elder Realms VI", genre: "Action RPG", players: "1.8M players" },
-  { title: "Cyber Streets 2099", genre: "Open World", players: "1.3M players" },
-  { title: "Aether Rivals", genre: "Fighting", players: "980K players" },
-];
+// const popularGames = [
+//   { title: "Elder Realms VI", genre: "Action RPG", players: "1.8M players" },
+//   { title: "Cyber Streets 2099", genre: "Open World", players: "1.3M players" },
+//   { title: "Aether Rivals", genre: "Fighting", players: "980K players" },
+// ];
 
-const newReleases = [
-  { title: "Mythborne", date: "Mar 12, 2026", platform: "PC / PS5" },
-  { title: "Velocity Drift X", date: "Apr 2, 2026", platform: "PC / Xbox" },
-  { title: "Kingdoms of Ash", date: "May 18, 2026", platform: "PC / Switch 2" },
-];
+// const newReleases = [
+//   { title: "Mythborne", date: "Mar 12, 2026", platform: "PC / PS5" },
+//   { title: "Velocity Drift X", date: "Apr 2, 2026", platform: "PC / Xbox" },
+//   { title: "Kingdoms of Ash", date: "May 18, 2026", platform: "PC / Switch 2" },
+// ];
 
-const topRatedGames = [
-  { title: "Hollow Frontier", score: "9.6", reviews: "42K reviews" },
-  { title: "Legends Reborn", score: "9.4", reviews: "31K reviews" },
-  { title: "Orbitfall", score: "9.2", reviews: "25K reviews" },
-];
+// const topRatedGames = [
+//   { title: "Hollow Frontier", score: "9.6", reviews: "42K reviews" },
+//   { title: "Legends Reborn", score: "9.4", reviews: "31K reviews" },
+//   { title: "Orbitfall", score: "9.2", reviews: "25K reviews" },
+// ];
+
+import { useState, useEffect } from "react";
+import {
+  fetchPopularGames,
+  fetchNewReleases,
+  fetchTopRated,
+} from "../api/rawg";
 
 function Home() {
+  const [popularGames, setPopularGames] = useState([]);
+  const [newReleases, setNewReleases] = useState([]);
+  const [topRatedGames, setTopRatedGames] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const featuredGame = popularGames[0];
+
+  // Fetch all game data on component mount which get stored in state variables
+  // We use Promise.all to fetch all categories in parallel for better performance
+  useEffect(() => {
+    const fetchAllGames = async () => {
+      try {
+        const [popular, releases, topRated] = await Promise.all([
+          fetchPopularGames(),
+          fetchNewReleases(),
+          fetchTopRated(),
+        ]);
+
+        setPopularGames(
+          (popular.results ?? []).sort(
+            (a, b) => (b.added ?? 0) - (a.added ?? 0),
+          ),
+        );
+        setNewReleases(
+          (releases.results ?? [])
+            .filter((release) => release.released)
+            .sort(
+              (a, b) =>
+                new Date(b.released).getTime() - new Date(a.released).getTime(),
+            ),
+        );
+        setTopRatedGames(topRated.results);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAllGames();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
   return (
     <main className="home-page">
       <nav className="top-nav">
@@ -39,8 +91,10 @@ function Home() {
           <p className="item-meta">Track. Organize. Finish more games.</p>
           <h1>All your games in one clean dashboard.</h1>
           <p className="hero-copy">
-            This week&apos;s spotlight is <strong>Elder Realms VI</strong> — a
-            massive open-world RPG with deep progression and co-op raids.
+            This week&apos;s spotlight is{" "}
+            <strong>{featuredGame?.name ?? "Loading..."}</strong> — rated{" "}
+            {featuredGame?.rating ?? "-"} with{" "}
+            {featuredGame?.ratings_count ?? 0} community ratings.
           </p>
           <div className="hero-actions">
             <button className="primary-btn" type="button">
@@ -61,12 +115,13 @@ function Home() {
           </div>
           <ul className="item-list">
             {popularGames.map((game) => (
-              <li key={game.title}>
+              <li key={game.id}>
                 <div>
-                  <p className="item-title">{game.title}</p>
-                  <p className="item-meta">{game.genre}</p>
+                  <p className="item-title">{game.name}</p>
+                  <p className="item-meta">
+                    {game.genres?.[0]?.name ?? "Unknown genre"}
+                  </p>
                 </div>
-                <span>{game.players}</span>
               </li>
             ))}
           </ul>
@@ -79,12 +134,20 @@ function Home() {
           </div>
           <ul className="item-list">
             {newReleases.map((release) => (
-              <li key={release.title}>
+              <li key={release.id}>
                 <div>
-                  <p className="item-title">{release.title}</p>
-                  <p className="item-meta">{release.platform}</p>
+                  <p className="item-title">{release.name}</p>
+                  <p className="item-meta">
+                    {release.parent_platforms
+                      ?.map((platformEntry) => platformEntry.platform.name)
+                      .join(" / ") || "Unknown platform"}
+                  </p>
                 </div>
-                <span>{release.date}</span>
+                <span>
+                  {release.released
+                    ? new Date(release.released).toLocaleDateString()
+                    : "TBA"}
+                </span>
               </li>
             ))}
           </ul>
@@ -97,12 +160,12 @@ function Home() {
           </div>
           <ul className="item-list">
             {topRatedGames.map((game) => (
-              <li key={game.title}>
+              <li key={game.id}>
                 <div>
-                  <p className="item-title">{game.title}</p>
-                  <p className="item-meta">{game.reviews}</p>
+                  <p className="item-title">{game.name}</p>
+                  <p className="item-meta">{game.ratings_count ?? 0} ratings</p>
                 </div>
-                <span>{game.score}</span>
+                <span>{game.metacritic ?? "N/A"}</span>
               </li>
             ))}
           </ul>

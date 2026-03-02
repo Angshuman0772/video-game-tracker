@@ -1,10 +1,12 @@
 const BASE_URL = "https://api.rawg.io/api";
 const API_KEY = import.meta.env.VITE_RAWG_API_KEY;
 
+const formatDate = (date) => date.toISOString().split("T")[0];
+
 // Fetch popular games (most relevant/highest rated)
 export const fetchPopularGames = async () => {
   const response = await fetch(
-    `${BASE_URL}/games?key=${API_KEY}&ordering=-rating&page_size=10`,
+    `${BASE_URL}/games?key=${API_KEY}&ordering=-added&page_size=10`,
   );
 
   if (!response.ok) {
@@ -16,8 +18,14 @@ export const fetchPopularGames = async () => {
 
 // Fetch new releases (recently released games)
 export const fetchNewReleases = async () => {
+  const today = new Date();
+  const oneYearAgo = new Date();
+  oneYearAgo.setFullYear(today.getFullYear() - 1);
+
+  const dateRange = `${formatDate(oneYearAgo)},${formatDate(today)}`;
+
   const response = await fetch(
-    `${BASE_URL}/games?key=${API_KEY}&ordering=-released&page_size=10`,
+    `${BASE_URL}/games?key=${API_KEY}&dates=${dateRange}&ordering=-released&page_size=10`,
   );
 
   if (!response.ok) {
