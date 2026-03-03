@@ -220,6 +220,84 @@
   padding: 1rem 0 0.4rem;
 }
 
+.animated-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 230px; /* Increased width to account for the gaps */
+  height: 100px;
+
+  margin-top: -50px;
+  margin-left: -115px; /* Adjusted for the new loader width */
+
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+/* The line */
+.line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 20px;
+  height: 100px;
+
+  background-color: var(--bg-accent); /* White bars */
+  box-shadow: 0 4px 15px rgba(38, 38, 38, 0.6); /* White glow shadow */
+
+  transform: scaleY(0);
+  transform-style: preserve-3d;
+
+  animation: animate-line 3s cubic-bezier(0.81, 0.04, 0.4, 0.7) infinite;
+}
+
+/* Positioning the bars with 5px gaps */
+.line:nth-child(2) {
+  left: 25px; /* Adding 5px gap */
+  animation-delay: 50ms;
+}
+
+.line:nth-child(3) {
+  left: 50px; /* Adding 5px gap */
+  animation-delay: 100ms;
+}
+
+.line:nth-child(4) {
+  left: 75px; /* Adding 5px gap */
+  animation-delay: 150ms;
+}
+
+.line:nth-child(5) {
+  left: 100px; /* Adding 5px gap */
+  animation-delay: 200ms;
+}
+
+.line:nth-child(6) {
+  left: 125px; /* Adding 5px gap */
+  animation-delay: 250ms;
+}
+
+.line:nth-child(7) {
+  left: 150px; /* Adding 5px gap */
+  animation-delay: 300ms;
+}
+
+.line:nth-child(8) {
+  left: 175px; /* Adding 5px gap */
+  animation-delay: 350ms;
+}
+
+@keyframes animate-line {
+  0% {
+    transform: rotateZ(-180deg) rotateX(-360deg);
+  }
+  75%,
+  100% {
+    transform: rotateZ(0) rotateX(0);
+  }
+}
+
 @media (max-width: 820px) {
   .top-nav {
     flex-wrap: wrap;
