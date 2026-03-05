@@ -1,6 +1,5 @@
 import { fetchNewReleases } from "../api/rawg";
 import GamesList from "../components/GamesList";
-import "../styles/NewReleases.css";
 
 const NewReleases = () => {
   return (

@@ -1,6 +1,5 @@
 import { fetchPopularGames } from "../api/rawg";
 import GamesList from "../components/GamesList";
-import "../styles/PopularGames.css";
 
 const PopularGames = () => {
   return (
