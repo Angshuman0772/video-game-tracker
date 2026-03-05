@@ -7,13 +7,13 @@ const formatDate = (date) => date.toISOString().split("T")[0];
 export const fetchPopularGames = async (pageSize = 10, page = 1) => {
   const response = await fetch(
     `${BASE_URL}/games?key=${API_KEY}&ordering=-added&page_size=${pageSize}&page=${page}`,
-  );
+  ); // / unwraps Promise<Response> to raw Response object
 
   if (!response.ok) {
     throw new Error("Failed to fetch popular games");
   }
 
-  return response.json();
+  return response.json(); // // returns Promise<parsedData>
 };
 
 // Fetch new releases (recently released games)

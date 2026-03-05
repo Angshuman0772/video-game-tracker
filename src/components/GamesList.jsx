@@ -9,11 +9,22 @@ const GamesList = ({ fetchFunction, title, containerClass }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
+/* HOW FETCHING WORKS: 
+
+fetch() → Promise<Response>
+
+await fetch() → Response
+
+response.json() → Promise<JSON>
+
+await fetchFunction() → JSON object (e.g., { count, results, ... })
+*/
+
   useEffect(() => {
     const loadGames = async () => {
       try {
         setLoading(true);
-        const data = await fetchFunction(25, currentPage);
+        const data = await fetchFunction(25, currentPage); // unwraps Promise<parsedData> → parsed JSON object (e.g., { count, results, ... })
         setGames(data.results ?? []);
         setTotalPages(Math.ceil((data.count ?? 0) / 25));
         setError(null);
