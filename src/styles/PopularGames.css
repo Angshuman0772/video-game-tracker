@@ -24,6 +24,25 @@
   gap: 2rem;
 }
 
+.game-cover {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  margin-bottom: 0.9rem;
+  display: block;
+}
+
+.game-cover-fallback {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
 .loading,
 .error {
   text-align: center;

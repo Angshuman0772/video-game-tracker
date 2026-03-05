@@ -33,7 +33,14 @@ const PopularGames = () => {
   if (loading) {
     return (
       <div className="popular-games-container">
-        <div className="loading">Loading popular games...</div>
+        <div className="animated-loader">
+          <div className="line"></div>
+          <div className="line"></div>
+          <div className="line"></div>
+          <div className="line"></div>
+          <div className="line"></div>
+          <div className="line"></div>
+        </div>
       </div>
     );
   }
@@ -57,6 +64,16 @@ const PopularGames = () => {
       <div className="games-grid">
         {games.map((game) => (
           <article key={game.id} className="panel">
+            {game.background_image ? (
+              <img
+                src={game.background_image}
+                alt={`${game.name} cover art`}
+                className="game-cover"
+                loading="lazy"
+              />
+            ) : (
+              <div className="game-cover game-cover-fallback">No cover art</div>
+            )}
             <h3>{game.name}</h3>
             <p>{game.genres?.[0]?.name ?? "Unknown genre"}</p>
             <p>
