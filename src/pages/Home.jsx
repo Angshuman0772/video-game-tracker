@@ -123,7 +123,7 @@ function Home() {
         <article className="panel" id="releases">
           <div className="panel-heading">
             <h3>New Releases</h3>
-            <a href="#">View All</a>
+            <Link to="/releases">View All</Link>
           </div>
           <ul className="item-list">
             {newReleases.map((release) => (

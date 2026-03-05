@@ -17,7 +17,7 @@ export const fetchPopularGames = async (pageSize = 10, page = 1) => {
 };
 
 // Fetch new releases (recently released games)
-export const fetchNewReleases = async () => {
+export const fetchNewReleases = async (pageSize = 10, page = 1) => {
   const today = new Date();
   const oneYearAgo = new Date();
   oneYearAgo.setFullYear(today.getFullYear() - 1);
@@ -25,7 +25,7 @@ export const fetchNewReleases = async () => {
   const dateRange = `${formatDate(oneYearAgo)},${formatDate(today)}`;
 
   const response = await fetch(
-    `${BASE_URL}/games?key=${API_KEY}&dates=${dateRange}&ordering=-released&page_size=10`,
+    `${BASE_URL}/games?key=${API_KEY}&dates=${dateRange}&ordering=-released&page_size=${pageSize}&page=${page}`,
   );
 
   if (!response.ok) {
