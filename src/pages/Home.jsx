@@ -66,18 +66,6 @@ function Home() {
 
   return (
     <main className="home-page">
-      <nav className="top-nav">
-        <p className="brand">Checkpoint</p>
-        <div className="nav-middle">
-          <a href="#popular">Popular Games</a>
-          <a href="#releases">New Releases</a>
-          <a href="#top-rated">Top Rated</a>
-        </div>
-        <button className="ghost-btn" type="button">
-          Sign In
-        </button>
-      </nav>
-
       <header className="hero">
         <section className="hero-content">
           <p className="hero-kicker">Featured Game</p>
