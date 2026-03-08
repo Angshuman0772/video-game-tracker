@@ -29,7 +29,7 @@
   background: var(--bg-surface);
   border-top: 1px solid rgba(133, 79, 108, 0.8);
   border-bottom: 1px solid rgba(133, 79, 108, 0.8);
-  padding: 0.8rem max(1rem, calc((100vw - 1100px) / 2 + 1.25rem));
+  padding: 0.8rem 1.25rem;
   backdrop-filter: blur(8px);
   box-shadow: 0 6px 16px rgba(133, 79, 108, 0.2);
 }
