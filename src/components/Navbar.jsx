@@ -1,13 +1,24 @@
 import { Link } from "react-router-dom";
 
-function Navbar() {
+function Navbar({ toggleSidebar }) {
   return (
     <nav className="top-nav">
-      <Link to="/" className="brand">Checkpoint</Link>
+      <div className="nav-left">
+        <button
+          className="hamburger-btn"
+          onClick={toggleSidebar}
+          aria-label="Toggle menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <Link to="/" className="brand">
+          Checkpoint
+        </Link>
+      </div>
       <div className="nav-middle">
-        <Link to="/popular">Popular Games</Link>
-        <Link to="/releases">New Releases</Link>
-        <Link to="/top-rated">Top Rated</Link>
+        
       </div>
       <button className="ghost-btn" type="button">
         Sign In
