@@ -8,17 +8,6 @@ const GamesList = ({ fetchFunction, title, containerClass }) => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
-
-  // Debounce search input to avoid excessive API calls
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearch(search);
-    }, 400);
-
-    return () => clearTimeout(timer);
-  }, [search]);
 
 /* HOW FETCHING WORKS: 
 
@@ -35,7 +24,7 @@ await fetchFunction() → JSON object (e.g., { count, results, ... })
     const loadGames = async () => {
       try {
         setLoading(true);
-        const data = await fetchFunction(25, currentPage, debouncedSearch); // unwraps Promise<parsedData> → parsed JSON object (e.g., { count, results, ... })
+        const data = await fetchFunction(25, currentPage, ""); // unwraps Promise<parsedData> → parsed JSON object (e.g., { count, results, ... })
         setGames(data.results ?? []);
         setTotalPages(Math.ceil((data.count ?? 0) / 25));
         setError(null);
@@ -51,7 +40,7 @@ await fetchFunction() → JSON object (e.g., { count, results, ... })
     };
 
     loadGames();
-  }, [currentPage, fetchFunction, title, debouncedSearch]);
+  }, [currentPage, fetchFunction, title]);
 
   if (loading) {
     return (
@@ -84,15 +73,6 @@ await fetchFunction() → JSON object (e.g., { count, results, ... })
           Back to Home
         </Link>
       </p>
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder={`Search`}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="search-input"
-        />
-      </div>
       <div className="games-grid">
         {games.map((game) => (
           <article key={game.id} className="panel">
