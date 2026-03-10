@@ -47,3 +47,16 @@ export const fetchTopRated = async (pageSize = 10, page = 1, search = "") => {
 
   return response.json();
 };
+
+// Search games by name
+export const searchGames = async (query, pageSize = 10, page = 1) => {
+  const response = await fetch(
+    `${BASE_URL}/games?key=${API_KEY}&search=${encodeURIComponent(
+      query,
+    )}&page_size=${pageSize}&page=${page}`,
+  );
+  if (!response.ok) {
+    throw new Error("Failed to search games");
+  }
+  return response.json();
+}
