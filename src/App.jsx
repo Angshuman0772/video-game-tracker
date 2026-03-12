@@ -7,6 +7,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import SearchResults from "./pages/SearchResults";
+import GameDetails from "./pages/GameDetails";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -24,6 +25,7 @@ function App() {
         <Route path="/popular" element={<PopularGames />} />
         <Route path="/releases" element={<NewReleases />} />
         <Route path="/search" element={<SearchResults />} />
+        <Route path="/game/:id" element={<GameDetails />} />
       </Routes>
     </>
   );

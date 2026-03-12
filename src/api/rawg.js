@@ -60,3 +60,11 @@ export const searchGames = async (query, pageSize = 10, page = 1) => {
   }
   return response.json();
 }
+
+export const fetchGameDetails = async (id) => {
+  const response = await fetch(`${BASE_URL}/games/${id}?key=${API_KEY}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch game details");
+  }
+  return response.json();
+};

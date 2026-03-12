@@ -75,6 +75,7 @@ await fetchFunction() → JSON object (e.g., { count, results, ... })
       </p>
       <div className="games-grid">
         {games.map((game) => (
+          <Link key={game.id} to={`/game/${game.id}`} className="game-card-link">
           <article key={game.id} className="panel">
             {game.background_image ? (
               <img
@@ -94,6 +95,7 @@ await fetchFunction() → JSON object (e.g., { count, results, ... })
                 : "TBA"}
             </p>
           </article>
+          </Link>
         ))}
       </div>
       <div className="pagination">
