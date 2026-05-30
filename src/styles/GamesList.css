@@ -1,8 +1,6 @@
 .new-releases-container,
 .popular-games-container {
-  padding: 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
 }
 
 .page-title {
@@ -49,10 +47,7 @@
   text-align: center;
   padding: 3rem;
   font-size: 1.2rem;
-}
-
-.error {
-  color: #dc3545;
+  color: #fca5a5;
 }
 
 .pagination {
@@ -78,7 +73,7 @@
 
 .pagination-btn:hover:not(:disabled) {
   background-color: var(--bg-hover);
-  border-color: var(--text-primary);
+  border-color: rgba(96, 124, 255, 0.45);
   transform: translateY(-2px);
 }
 

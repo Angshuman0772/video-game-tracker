@@ -1,12 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
 
 :root {
-  --bg-main: #190019;
-  --bg-surface: #2b124c;
-  --bg-panel: #522b5b;
-  --bg-accent: #854f6c;
-  --text-primary: #fbe4d8;
-  --text-secondary: #dfb6b2;
+  --bg-main: #0e1016;
+  --bg-surface: #171b24;
+  --bg-panel: #232938;
+  --bg-accent: #2142e8;
+  --bg-accent-hover: #365cff;
+  --bg-secondary: #232938;
+  --bg-hover: #2d3550;
+  --border-color: rgba(148, 163, 184, 0.22);
+  --text-primary: #eef2ff;
+  --text-secondary: #aab3c7;
+  --accent-glow: rgba(33, 66, 232, 0.34);
 
   font-family:
     "Space Grotesk",
@@ -39,7 +44,15 @@ a:hover {
 body {
   margin: 0;
   min-width: 320px;
-  background: var(--bg-main);
+  background:
+    radial-gradient(circle at top, rgba(33, 66, 232, 0.18), transparent 34%),
+    radial-gradient(
+      circle at right top,
+      rgba(96, 165, 250, 0.08),
+      transparent 26%
+    ),
+    linear-gradient(180deg, #10131b 0%, #0e1016 45%, #0b0d12 100%);
+  background-attachment: fixed;
   overflow-x: hidden;
 }
 
