@@ -44,7 +44,7 @@ await fetchFunction() → JSON object (e.g., { count, results, ... })
 
   if (loading) {
     return (
-      <div className={containerClass}>
+      <div className="loading-state">
         <div className="animated-loader">
           <div className="line"></div>
           <div className="line"></div>
@@ -58,11 +58,7 @@ await fetchFunction() → JSON object (e.g., { count, results, ... })
   }
 
   if (error) {
-    return (
-      <div className={containerClass}>
-        <div className="error">{error}</div>
-      </div>
-    );
+    return <div className="error">{error}</div>;
   }
 
   return (
@@ -75,26 +71,32 @@ await fetchFunction() → JSON object (e.g., { count, results, ... })
       </p>
       <div className="games-grid">
         {games.map((game) => (
-          <Link key={game.id} to={`/game/${game.id}`} className="game-card-link">
-          <article key={game.id} className="panel">
-            {game.background_image ? (
-              <img
-                src={game.background_image}
-                alt={`${game.name} cover art`}
-                className="game-cover"
-                loading="lazy"
-              />
-            ) : (
-              <div className="game-cover game-cover-fallback">No cover art</div>
-            )}
-            <h3>{game.name}</h3>
-            <p>{game.genres?.[0]?.name ?? "Unknown genre"}</p>
-            <p>
-              {game.released
-                ? new Date(game.released).toLocaleDateString()
-                : "TBA"}
-            </p>
-          </article>
+          <Link
+            key={game.id}
+            to={`/game/${game.id}`}
+            className="game-card-link"
+          >
+            <article key={game.id} className="panel">
+              {game.background_image ? (
+                <img
+                  src={game.background_image}
+                  alt={`${game.name} cover art`}
+                  className="game-cover"
+                  loading="lazy"
+                />
+              ) : (
+                <div className="game-cover game-cover-fallback">
+                  No cover art
+                </div>
+              )}
+              <h3>{game.name}</h3>
+              <p>{game.genres?.[0]?.name ?? "Unknown genre"}</p>
+              <p>
+                {game.released
+                  ? new Date(game.released).toLocaleDateString()
+                  : "TBA"}
+              </p>
+            </article>
           </Link>
         ))}
       </div>

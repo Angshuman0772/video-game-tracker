@@ -51,17 +51,20 @@ function Home() {
 
   if (loading)
     return (
-      <div className="animated-loader">
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
+      <div className="loading-state">
+        <div className="animated-loader">
+          <div className="line"></div>
+          <div className="line"></div>
+          <div className="line"></div>
+          <div className="line"></div>
+          <div className="line"></div>
+          <div className="line"></div>
+          <div className="line"></div>
+          <div className="line"></div>
+        </div>
       </div>
     );
+
   if (error) return <div>Error: {error}</div>;
 
   return (

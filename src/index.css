@@ -41,7 +41,7 @@ a:hover {
   color: var(--text-secondary);
 }
 
-html {
+html{
   scrollbar-gutter: stable;
 }
 
@@ -49,17 +49,6 @@ body {
   margin: 0;
   min-width: 320px;
   padding-top: 0.75rem;
-  background:
-    radial-gradient(circle at top, rgba(33, 66, 232, 0.18), transparent 34%),
-    radial-gradient(
-      circle at right top,
-      rgba(96, 165, 250, 0.08),
-      transparent 26%
-    ),
-    linear-gradient(180deg, #10131b 0%, #0e1016 45%, #0b0d12 100%);
-  background-attachment: fixed;
-    overflow-y: scroll;
-  overflow-x: hidden;
 }
 
 * {

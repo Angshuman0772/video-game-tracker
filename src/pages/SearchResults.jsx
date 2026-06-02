@@ -45,7 +45,7 @@ function SearchResults() {
 
   if (loading) {
     return (
-      <div className="search-results-container">
+      <div className="loading-state">
         <div className="animated-loader">
           <div className="line"></div>
           <div className="line"></div>
