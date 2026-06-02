@@ -33,11 +33,11 @@
   margin: 0 auto;
   background: rgba(14, 16, 22, 0.9);
   border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: none;
   border-radius: 18px;
   padding: 0.8rem 1.25rem;
   backdrop-filter: blur(14px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.34);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 .nav-left {
@@ -219,7 +219,7 @@
 }
 
 .hero-content {
-  max-width: 700px;
+  max-width: 1100px;
 }
 
 .hero-kicker {
@@ -386,6 +386,13 @@
   padding: 2rem 1.25rem 3rem;
 }
 
+.loading-state {
+  min-height: calc(100vh - 6rem);
+  display: grid;
+  place-items: center;
+  padding-top: 0.5rem;
+}
+
 .search-results-container .games-grid,
 .new-releases-container .games-grid,
 .popular-games-container .games-grid {
@@ -446,15 +453,11 @@
 }
 
 .animated-loader {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-
   width: 230px; /* Increased width to account for the gaps */
   height: 100px;
 
-  margin-top: -50px;
-  margin-left: -115px; /* Adjusted for the new loader width */
+  position: relative;
+  margin: 0 auto;
 
   perspective: 1000px;
   transform-style: preserve-3d;
