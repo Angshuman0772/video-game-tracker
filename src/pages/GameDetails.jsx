@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { fetchGameDetails } from "../api/rawg";
 import "../styles/pages/GameDetails.css";
-import "../styles/shared/Loader.css";
 
 function GameDetails() {
   const { id } = useParams();

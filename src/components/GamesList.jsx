@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import "../styles/pages/GamesList.css";
+import "../styles/components/GamesList.css";
 
 const GamesList = ({ fetchFunction, title, containerClass }) => {
   const [games, setGames] = useState([]);
