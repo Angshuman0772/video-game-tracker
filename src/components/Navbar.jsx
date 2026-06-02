@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/components/Navbar.css";
 
 function Navbar({ toggleSidebar }) {
   const [search, setSearch] = useState("");

@@ -5,6 +5,9 @@ import {
   fetchNewReleases,
   fetchTopRated,
 } from "../api/rawg";
+import "../styles/pages/Home.css";
+import "../styles/components/Navbar.css";
+import "../styles/components/Sidebar.css";
 
 function Home() {
   const [popularGames, setPopularGames] = useState([]);

@@ -1,4 +1,9 @@
 /* Styles for GameDetails page */
+
+.game-details h1 {
+  margin: 0;
+}
+
 .container {
   max-width: 1100px;
   margin: 0 auto;
@@ -8,6 +13,14 @@
 .game-details {
   color: var(--text-primary);
   background: transparent;
+
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 96px);
 }
 
 /* Hero: full-width background with overlay */

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { searchGames } from "../api/rawg";
+import "../styles/pages/SearchResults.css";
 
 function SearchResults() {
   const [searchParams] = useSearchParams();

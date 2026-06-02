@@ -1,0 +1,33 @@
+.panel {
+  background: linear-gradient(
+    180deg,
+    rgba(23, 27, 36, 0.98),
+    rgba(35, 41, 56, 0.98)
+  );
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow:
+    0 14px 30px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  transition: background-color 0.2s ease;
+}
+
+.panel:hover {
+  background: var(--bg-panel);
+  transform: translateY(-2px);
+}
+
+.panel {
+  padding: 1.35rem;
+}
+
+.panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.panel-heading h3 {
+  margin: 0;
+}

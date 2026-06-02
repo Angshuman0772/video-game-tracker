@@ -3,7 +3,6 @@ import { useState } from "react";
 import Home from "./pages/Home";
 import NewReleases from "./pages/NewReleases";
 import PopularGames from "./pages/PopularGames";
-import "./App.css";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import SearchResults from "./pages/SearchResults";
