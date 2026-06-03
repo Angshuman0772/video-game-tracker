@@ -70,7 +70,7 @@ function Home() {
 
   return (
     <main className="home-page">
-      <header className="hero">
+      <header className="hero panel">
         <section className="hero-content">
           <p className="hero-kicker">Featured Game</p>
           <p className="item-meta">Track. Organize. Finish more games.</p>
@@ -85,9 +85,9 @@ function Home() {
             <button className="primary-btn" type="button">
               Add to Library
             </button>
-            <button className="secondary-btn" type="button">
+            <Link className="secondary-btn" to={`/games/${featuredGame?.id}`}>
               View Details
-            </button>
+            </Link>
           </div>
         </section>
       </header>

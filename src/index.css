@@ -41,14 +41,14 @@ a:hover {
   color: var(--text-secondary);
 }
 
-html{
+html {
   scrollbar-gutter: stable;
 }
 
 body {
   margin: 0;
   min-width: 320px;
-  padding-top: 0.75rem;
+  padding-top: 0;
 }
 
 * {

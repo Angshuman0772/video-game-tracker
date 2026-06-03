@@ -33,15 +33,15 @@ function Navbar({ toggleSidebar }) {
         <form onSubmit={handleSubmit}>
           <input
             type="text"
-            placeholder="Search games..."
+            placeholder="Search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </form>
       </div>
-      <button className="ghost-btn" type="button">
+      <Link className="ghost-btn" to="/login">
         Sign In
-      </button>
+      </Link>
     </nav>
   );
 }
