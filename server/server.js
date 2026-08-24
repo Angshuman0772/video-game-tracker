@@ -1,9 +1,12 @@
 require("dotenv").config({ quiet: true });
 
+const connectDB = require("./config/db");
 const express = require("express");
 const cors = require("cors");
 
 const app = express();
+
+connectDB();
 
 // Middleware
 app.use(cors());
@@ -15,6 +18,12 @@ app.get("/", (req, res) => {
     message: "Checkpoint API is running!",
   });
 });
+
+const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
+
+app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 
 const PORT = process.env.PORT || 5000;
 
