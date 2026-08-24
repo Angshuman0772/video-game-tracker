@@ -5,6 +5,7 @@ import {
   fetchNewReleases,
   fetchTopRated,
 } from "../api/rawg";
+import "../styles/pages/Home.css";
 
 function Home() {
   const [popularGames, setPopularGames] = useState([]);
@@ -51,22 +52,25 @@ function Home() {
 
   if (loading)
     return (
-      <div className="animated-loader">
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
+      <div className="loading-state">
+        <div className="animated-loader">
+          <div className="line"></div>
+          <div className="line"></div>
+          <div className="line"></div>
+          <div className="line"></div>
+          <div className="line"></div>
+          <div className="line"></div>
+          <div className="line"></div>
+          <div className="line"></div>
+        </div>
       </div>
     );
+
   if (error) return <div>Error: {error}</div>;
 
   return (
     <main className="home-page">
-      <header className="hero">
+      <header className="hero panel">
         <section className="hero-content">
           <p className="hero-kicker">Featured Game</p>
           <p className="item-meta">Track. Organize. Finish more games.</p>
@@ -81,9 +85,9 @@ function Home() {
             <button className="primary-btn" type="button">
               Add to Library
             </button>
-            <button className="secondary-btn" type="button">
+            <Link className="secondary-btn" to={`/games/${featuredGame?.id}`}>
               View Details
-            </button>
+            </Link>
           </div>
         </section>
       </header>

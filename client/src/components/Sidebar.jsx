@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import "../styles/components/Sidebar.css";
 
 function Sidebar({ isOpen, toggleSidebar }) {
   return (

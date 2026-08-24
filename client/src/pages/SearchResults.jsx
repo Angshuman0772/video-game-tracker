@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { searchGames } from "../api/rawg";
+import "../styles/pages/SearchResults.css";
 
 function SearchResults() {
   const [searchParams] = useSearchParams();
@@ -45,7 +46,7 @@ function SearchResults() {
 
   if (loading) {
     return (
-      <div className="search-results-container">
+      <div className="loading-state">
         <div className="animated-loader">
           <div className="line"></div>
           <div className="line"></div>
@@ -91,27 +92,29 @@ function SearchResults() {
         <>
           <div className="games-grid">
             {games.map((game) => (
-              <article key={game.id} className="panel">
-                {game.background_image ? (
-                  <img
-                    src={game.background_image}
-                    alt={`${game.name} cover art`}
-                    className="game-cover"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div className="game-cover game-cover-fallback">
-                    No cover art
-                  </div>
-                )}
-                <h3>{game.name}</h3>
-                <p>{game.genres?.[0]?.name ?? "Unknown genre"}</p>
-                <p>
-                  {game.released
-                    ? new Date(game.released).toLocaleDateString()
-                    : "TBA"}
-                </p>
-              </article>
+              <Link key={game.id} to={`/game/${game.id}`} className="game-link">
+                <article className="panel">
+                  {game.background_image ? (
+                    <img
+                      src={game.background_image}
+                      alt={`${game.name} cover art`}
+                      className="game-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="game-cover game-cover-fallback">
+                      No cover art
+                    </div>
+                  )}
+                  <h3>{game.name}</h3>
+                  <p>{game.genres?.[0]?.name ?? "Unknown genre"}</p>
+                  <p>
+                    {game.released
+                      ? new Date(game.released).toLocaleDateString()
+                      : "TBA"}
+                  </p>
+                </article>
+              </Link>
             ))}
           </div>
 

@@ -1,0 +1,214 @@
+/* Styles for GameDetails page */
+
+.game-details h1 {
+  margin: 0;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.game-details {
+  color: var(--text-primary);
+  background: transparent;
+
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 96px);
+}
+
+/* Hero: full-width background with overlay */
+.gd-hero {
+  width: 100%;
+  height: 360px;
+  background-size: cover;
+  background-position: center center;
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  margin: 18px 0;
+}
+
+.gd-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 8, 14, 0.35),
+    rgba(6, 8, 14, 0.85)
+  );
+  display: flex;
+  align-items: center;
+}
+
+.hero-inner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px 0;
+}
+
+.hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: clamp(1.4rem, 3.2vw, 2.6rem);
+  text-shadow: 0 6px 24px rgba(2, 6, 23, 0.6);
+}
+
+.back-btn {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  padding: 8px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease;
+}
+
+.back-btn:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.hero-stats {
+  display: flex;
+  gap: 18px;
+  margin-top: 6px;
+}
+
+.stat {
+  color: var(--text-secondary);
+}
+.stat-label {
+  font-size: 12px;
+}
+.stat-value {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.gd-content {
+  margin-bottom: 40px;
+}
+
+.gd-main {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 22px;
+  align-items: start;
+}
+
+.gd-desc {
+  color: var(--text-secondary);
+}
+.gd-desc p {
+  margin-bottom: 14px;
+}
+.gd-desc h2 {
+  color: var(--text-primary);
+}
+
+.gd-desc {
+  line-height: 1.7;
+}
+.gd-desc h2 {
+  margin-top: 0;
+}
+
+.gd-aside .panel {
+  padding: 14px;
+  margin-bottom: 12px;
+  background: linear-gradient(
+    180deg,
+    rgba(23, 27, 36, 0.9),
+    rgba(35, 41, 56, 0.95)
+  );
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 20px rgba(2, 6, 23, 0.45);
+  border-radius: 12px;
+}
+.gd-aside .meta-list div {
+  margin-bottom: 6px;
+  color: var(--text-secondary);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.chip {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  transition:
+    transform 0.14s ease,
+    background 0.14s ease;
+}
+.chip:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.06);
+}
+.chip.muted {
+  opacity: 0.7;
+}
+
+/* Loader and error reuse existing classes */
+
+@media (max-width: 880px) {
+  .gd-hero {
+    height: 260px;
+  }
+  .gd-main {
+    grid-template-columns: 1fr;
+  }
+  .gd-aside {
+    order: 2;
+  }
+}
+
+/* Subtle vignette for hero */
+.gd-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    60% 60% at 50% 10%,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.18) 60%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+}
+
+/* Small adjustments */
+.panel.small {
+  padding: 12px;
+}
+.panel h3 {
+  margin: 0 0 8px 0;
+  color: var(--text-primary);
+}
+.stat {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 6px 10px;
+  border-radius: 8px;
+}
