@@ -1,13 +1,13 @@
-import express from "express";
+const express = require("express");
 
-import {
+const {
   addGameToLibrary,
   getLibrary,
   updateGameStatus,
   removeGame,
-} from "../controllers/libraryController.js";
+} = require("../controllers/libraryController");
 
-import { protect } from "../middleware/authMiddleware.js";
+const protect = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -21,4 +21,4 @@ router.put("/:id", updateGameStatus);
 
 router.delete("/:id", removeGame);
 
-export default router;
+module.exports = router;

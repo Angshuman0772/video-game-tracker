@@ -1,6 +1,6 @@
-import UserGames from "../models/UserGames.js";
+const UserGames = require("../models/UserGames");
 
-export const addGameToLibrary = async (req, res) => {
+const addGameToLibrary = async (req, res) => {
   try {
     const { gameId, gameName, gameImage, status } = req.body;
 
@@ -20,7 +20,7 @@ export const addGameToLibrary = async (req, res) => {
   }
 };
 
-export const getLibrary = async (req, res) => {
+const getLibrary = async (req, res) => {
   try {
     const library = await UserGames.find({ user: req.user.id });
     res.json(library);
@@ -31,7 +31,7 @@ export const getLibrary = async (req, res) => {
   }
 };
 
-export const updateGameStatus = async (req, res) => {
+const updateGameStatus = async (req, res) => {
   try {
     const game = await UserGames.findById(req.params.id);
 
@@ -59,7 +59,7 @@ export const updateGameStatus = async (req, res) => {
   }
 };
 
-export const removeGame = async (req, res) => {
+const removeGame = async (req, res) => {
   try {
     const game = await UserGames.findById(req.params.id);
 

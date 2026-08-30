@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const userGamesSchema = new mongoose.Schema(
   {
@@ -46,4 +46,4 @@ const userGamesSchema = new mongoose.Schema(
 
 userGamesSchema.index({ user: 1, gameId: 1 }, { unique: true });
 
-export default mongoose.model("UserGames", userGamesSchema);
+module.exports = mongoose.model("UserGames", userGamesSchema);
