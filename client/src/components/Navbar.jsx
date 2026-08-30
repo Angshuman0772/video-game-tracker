@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import "../styles/components/Navbar.css";
 
 function Navbar({ toggleSidebar }) {
+  const { user, logout } = useAuth();
+
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
@@ -39,9 +42,15 @@ function Navbar({ toggleSidebar }) {
           />
         </form>
       </div>
-      <Link className="ghost-btn" to="/login">
-        Sign In
-      </Link>
+      {user ? (
+        <button className="ghost-btn" onClick={logout}>
+          Sign Out {user.username}
+        </button>
+      ) : (
+        <Link className="ghost-btn" to="/login">
+          Sign In
+        </Link>
+      )}
     </nav>
   );
 }

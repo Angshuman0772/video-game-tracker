@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { loginUser } from "../api/auth";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/authContext.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
 import "../styles/pages/Auth.css";
 
 function Login() {
