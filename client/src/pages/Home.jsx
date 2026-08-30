@@ -85,7 +85,7 @@ function Home() {
             <button className="primary-btn" type="button">
               Add to Library
             </button>
-            <Link className="secondary-btn" to={`/games/${featuredGame?.id}`}>
+            <Link className="secondary-btn" to={`/game/${featuredGame?.id}`}>
               View Details
             </Link>
           </div>
