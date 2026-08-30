@@ -2,14 +2,34 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { fetchGameDetails } from "../api/rawg";
+import axios from "axios";
 import "../styles/pages/GameDetails.css";
 
 function GameDetails() {
   const { id } = useParams();
 
+  const token = localStorage.getItem("token");
+
   const [game, setGame] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const addToLibrary = async () => {
+    await axios.post(
+      "/api/library",
+      {
+        gameId: game.id,
+        gameName: game.name,
+        gameImage: game.background_image,
+        status: "wishlist",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+  };
 
   useEffect(() => {
     const loadGameDetails = async () => {
@@ -64,9 +84,16 @@ function GameDetails() {
           <div className="container hero-inner">
             <div className="hero-top">
               <h1 className="title">{game?.name}</h1>
-              <Link className="back-btn" to="/">
-                Back
-              </Link>
+
+              <div className="hero-actions">
+                <Link className="back-btn" to="/">
+                  Back
+                </Link>
+
+                <button className="primary-btn" onClick={addToLibrary}>
+                  Add to Library
+                </button>
+              </div>
             </div>
 
             <div className="hero-stats">
