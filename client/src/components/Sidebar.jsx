@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 import "../styles/components/Sidebar.css";
 
 function Sidebar({ isOpen, toggleSidebar }) {
+  const { user } = useAuth();
+
   return (
     <>
       <div
@@ -20,6 +23,11 @@ function Sidebar({ isOpen, toggleSidebar }) {
           </button>
         </div>
         <nav className="sidebar-nav">
+          {user && (
+            <Link to="/dashboard" onClick={toggleSidebar}>
+              Dashboard
+            </Link>
+          )}
           <Link to="/popular" onClick={toggleSidebar}>
             Popular Games
           </Link>

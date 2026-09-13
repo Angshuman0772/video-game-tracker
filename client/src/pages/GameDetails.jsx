@@ -2,33 +2,48 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { fetchGameDetails } from "../api/rawg";
-import axios from "axios";
+import { addGameToLibrary, getLibrary } from "../api/library";
+import { useAuth } from "../context/authContext";
+import { useToast } from "../context/toastContext";
 import "../styles/pages/GameDetails.css";
 
 function GameDetails() {
   const { id } = useParams();
 
-  const token = localStorage.getItem("token");
+  const { user } = useAuth();
+  const { showToast } = useToast();
 
   const [game, setGame] = useState(null);
+  const [inLibrary, setInLibrary] = useState(false);
+  const [libraryLoading, setLibraryLoading] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const addToLibrary = async () => {
-    await axios.post(
-      "/api/library",
-      {
-        gameId: game.id,
-        gameName: game.name,
-        gameImage: game.background_image,
-        status: "wishlist",
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
+    if (!user) {
+      showToast("Sign in to add games to your library", "error");
+      return;
+    }
+
+    if (inLibrary || libraryLoading) return;
+
+    try {
+      setLibraryLoading(true);
+      await addGameToLibrary(game);
+      setInLibrary(true);
+      showToast(`${game.name} added to your library`);
+    } catch (err) {
+      if (err.response?.status === 409) {
+        setInLibrary(true);
+      }
+      showToast(
+        err.response?.data?.message ||
+          "Could not add this game to your library",
+        "error",
+      );
+    } finally {
+      setLibraryLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -45,6 +60,24 @@ function GameDetails() {
     };
     loadGameDetails();
   }, [id]);
+
+  useEffect(() => {
+    const loadLibraryStatus = async () => {
+      if (!user) {
+        setInLibrary(false);
+        return;
+      }
+
+      try {
+        const library = await getLibrary();
+        setInLibrary(library.some((entry) => entry.gameId === Number(id)));
+      } catch {
+        showToast("Could not check your library status", "error");
+      }
+    };
+
+    loadLibraryStatus();
+  }, [id, showToast, user]);
 
   if (loading) {
     return (
@@ -90,8 +123,12 @@ function GameDetails() {
                   Back
                 </Link>
 
-                <button className="primary-btn" onClick={addToLibrary}>
-                  Add to Library
+                <button
+                  className="primary-btn"
+                  onClick={addToLibrary}
+                  disabled={inLibrary || libraryLoading}
+                >
+                  {inLibrary ? "Already in Library" : "Add to Library"}
                 </button>
               </div>
             </div>

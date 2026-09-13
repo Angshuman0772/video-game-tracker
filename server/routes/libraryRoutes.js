@@ -2,6 +2,7 @@ const express = require("express");
 
 const {
   addGameToLibrary,
+  getLibraryStats,
   getLibrary,
   updateGameStatus,
   removeGame,
@@ -14,6 +15,8 @@ const router = express.Router();
 router.use(protect);
 
 router.get("/", getLibrary);
+
+router.get("/stats", getLibraryStats);
 
 router.post("/", addGameToLibrary);
 

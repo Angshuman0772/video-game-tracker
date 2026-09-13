@@ -1,4 +1,5 @@
 const UserGames = require("../models/UserGames");
+const mongoose = require("mongoose");
 
 const addGameToLibrary = async (req, res) => {
   try {
@@ -14,7 +15,41 @@ const addGameToLibrary = async (req, res) => {
 
     res.status(201).json(game);
   } catch (error) {
+    if (error.code === 11000) {
+      return res.status(409).json({
+        message: "Game is already in your library",
+      });
+    }
+
     res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+
+const getLibraryStats = async (req, res) => {
+  try {
+    const [totalGames, statusCounts, completedGames] = await Promise.all([
+      UserGames.countDocuments({ user: req.user.id }),
+      UserGames.aggregate([
+        { $match: { user: new mongoose.Types.ObjectId(req.user.id) } },
+        { $group: { _id: "$status", count: { $sum: 1 } } },
+      ]),
+      UserGames.countDocuments({ user: req.user.id, status: "completed" }),
+    ]);
+
+    const byStatus = statusCounts.reduce((counts, entry) => {
+      counts[entry._id] = entry.count;
+      return counts;
+    }, {});
+
+    res.json({
+      totalGames,
+      completedGames,
+      byStatus,
+    });
+  } catch (error) {
+    res.status(500).json({
       message: error.message,
     });
   }
@@ -89,6 +124,7 @@ const removeGame = async (req, res) => {
 
 module.exports = {
   addGameToLibrary,
+  getLibraryStats,
   getLibrary,
   updateGameStatus,
   removeGame,

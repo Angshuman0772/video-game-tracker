@@ -9,6 +9,7 @@ import SearchResults from "./pages/SearchResults";
 import GameDetails from "./pages/GameDetails";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -27,6 +28,7 @@ function App() {
         <Route path="/releases" element={<NewReleases />} />
         <Route path="/search" element={<SearchResults />} />
         <Route path="/game/:id" element={<GameDetails />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
