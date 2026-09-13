@@ -11,14 +11,14 @@ export const getLibrary = async () => {
   return response.data;
 };
 
-export const addGameToLibrary = async (game) => {
+export const addGameToLibrary = async (game, status = "wishlist") => {
   const response = await axios.post(
     "/api/library",
     {
       gameId: game.id,
       gameName: game.name,
       gameImage: game.background_image,
-      status: "wishlist",
+      status,
     },
     getAuthConfig(),
   );

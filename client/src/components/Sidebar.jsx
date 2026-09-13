@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 import "../styles/components/Sidebar.css";
 
 function Sidebar({ isOpen, toggleSidebar }) {

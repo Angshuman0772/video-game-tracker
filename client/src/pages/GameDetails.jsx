@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { fetchGameDetails } from "../api/rawg";
 import { addGameToLibrary, getLibrary } from "../api/library";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/toastContext";
 import "../styles/pages/GameDetails.css";
 
@@ -19,7 +19,15 @@ function GameDetails() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const addToLibrary = async () => {
+  const libraryStatuses = [
+    ["playing", "Playing"],
+    ["backlog", "Backlog"],
+    ["wishlist", "Wishlist"],
+    ["completed", "Completed"],
+    ["dropped", "Dropped"],
+  ];
+
+  const addToLibrary = async (status) => {
     if (!user) {
       showToast("Sign in to add games to your library", "error");
       return;
@@ -29,9 +37,9 @@ function GameDetails() {
 
     try {
       setLibraryLoading(true);
-      await addGameToLibrary(game);
+      await addGameToLibrary(game, status);
       setInLibrary(true);
-      showToast(`${game.name} added to your library`);
+      showToast(`${game.name} added to your library as ${status}`);
     } catch (err) {
       if (err.response?.status === 409) {
         setInLibrary(true);
@@ -123,13 +131,33 @@ function GameDetails() {
                   Back
                 </Link>
 
-                <button
-                  className="primary-btn"
-                  onClick={addToLibrary}
-                  disabled={inLibrary || libraryLoading}
-                >
-                  {inLibrary ? "Already in Library" : "Add to Library"}
-                </button>
+                <div className="library-dropdown">
+                  <button
+                    className="primary-btn library-dropdown-trigger"
+                    type="button"
+                    aria-haspopup="menu"
+                    disabled={inLibrary || libraryLoading}
+                  >
+                    {inLibrary ? "Already in Library" : "Add to Library"}
+                    {!inLibrary && <span aria-hidden="true">▾</span>}
+                  </button>
+
+                  {!inLibrary && (
+                    <div className="library-dropdown-menu" role="menu">
+                      {libraryStatuses.map(([status, label]) => (
+                        <button
+                          key={status}
+                          type="button"
+                          role="menuitem"
+                          onClick={() => addToLibrary(status)}
+                          disabled={libraryLoading}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
