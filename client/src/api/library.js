@@ -11,7 +11,7 @@ export const getLibrary = async () => {
   return response.data;
 };
 
-export const addGameToLibrary = async (game, status = "wishlist") => {
+export const addGameToLibrary = async (game, status = "completed") => {
   const response = await axios.post(
     "/api/library",
     {
