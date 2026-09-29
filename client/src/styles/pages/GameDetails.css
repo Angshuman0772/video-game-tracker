@@ -143,6 +143,66 @@
   opacity: 0.6;
 }
 
+.library-date-form {
+  display: grid;
+  gap: 0.8rem;
+  width: min(100%, 360px);
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  background: rgba(12, 16, 28, 0.9);
+}
+
+.library-date-form h2,
+.library-date-form p {
+  margin: 0;
+}
+
+.library-date-form h2 {
+  font-size: 1rem;
+}
+
+.library-date-form p {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+.library-date-form label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.library-date-form input {
+  width: 100%;
+  min-height: 2.25rem;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  font: inherit;
+}
+
+.date-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.today-btn {
+  flex: 0 0 auto;
+  padding: 0.45rem 0.7rem;
+  font-size: 0.8rem;
+}
+
+.library-date-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 0.2rem;
+}
+
 .hero-stats {
   display: flex;
   gap: 18px;

@@ -11,7 +11,11 @@ export const getLibrary = async () => {
   return response.data;
 };
 
-export const addGameToLibrary = async (game, status = "completed") => {
+export const addGameToLibrary = async (
+  game,
+  status = "completed",
+  dates = {},
+) => {
   const response = await axios.post(
     "/api/library",
     {
@@ -19,7 +23,18 @@ export const addGameToLibrary = async (game, status = "completed") => {
       gameName: game.name,
       gameImage: game.background_image,
       status,
+      startedAt: dates.startedAt || undefined,
+      completedAt: dates.completedAt || undefined,
     },
+    getAuthConfig(),
+  );
+  return response.data;
+};
+
+export const updateLibraryGame = async (id, updates) => {
+  const response = await axios.put(
+    `/api/library/${id}`,
+    updates,
     getAuthConfig(),
   );
   return response.data;

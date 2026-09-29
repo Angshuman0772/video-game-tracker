@@ -31,6 +31,15 @@ const formatDate = (date) => {
   })}`;
 };
 
+const formatTrackedDate = (date, label) =>
+  date
+    ? `${label} ${new Date(date).toLocaleDateString(undefined, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })}`
+    : null;
+
 function Dashboard() {
   const { user, loading: authLoading } = useAuth();
   const { showToast } = useToast();
@@ -201,6 +210,16 @@ function Dashboard() {
                           <span>
                             {game.rating ? `${game.rating}/10` : "Not rated"}
                           </span>
+                          {formatTrackedDate(game.startedAt, "Started") && (
+                            <span>
+                              {formatTrackedDate(game.startedAt, "Started")}
+                            </span>
+                          )}
+                          {formatTrackedDate(game.completedAt, "Completed") && (
+                            <span>
+                              {formatTrackedDate(game.completedAt, "Completed")}
+                            </span>
+                          )}
                           <span>
                             {game.hoursPlayed
                               ? `${game.hoursPlayed}h played`

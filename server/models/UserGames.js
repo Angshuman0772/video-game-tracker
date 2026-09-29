@@ -28,6 +28,14 @@ const userGamesSchema = new mongoose.Schema(
       default: "wishlist",
     },
 
+    startedAt: {
+      type: Date,
+    },
+
+    completedAt: {
+      type: Date,
+    },
+
     rating: {
       type: Number,
       min: 1,

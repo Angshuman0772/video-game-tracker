@@ -3,14 +3,20 @@ const mongoose = require("mongoose");
 
 const addGameToLibrary = async (req, res) => {
   try {
-    const { gameId, gameName, gameImage, status } = req.body;
+    const { gameId, gameName, gameImage, status, startedAt, completedAt } =
+      req.body;
+
+    const gameStatus = status || "wishlist";
 
     const game = await UserGames.create({
       user: req.user.id,
       gameId,
       gameName,
       gameImage,
-      status,
+      status: gameStatus,
+      startedAt,
+      completedAt:
+        gameStatus === "completed" ? completedAt || new Date() : undefined,
     });
 
     res.status(201).json(game);
@@ -82,7 +88,19 @@ const updateGameStatus = async (req, res) => {
       });
     }
 
-    game.status = req.body.status;
+    const previousStatus = game.status;
+    const nextStatus = req.body.status;
+
+    game.status = nextStatus;
+    if (req.body.startedAt !== undefined) {
+      game.startedAt = req.body.startedAt || undefined;
+    }
+    if (req.body.completedAt !== undefined) {
+      game.completedAt = req.body.completedAt || undefined;
+    }
+    if (nextStatus === "completed" && previousStatus !== "completed") {
+      game.completedAt = req.body.completedAt || new Date();
+    }
 
     await game.save();
 

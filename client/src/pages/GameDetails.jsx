@@ -2,10 +2,22 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { fetchGameDetails } from "../api/rawg";
-import { addGameToLibrary, getLibrary } from "../api/library";
+import {
+  addGameToLibrary,
+  getLibrary,
+  updateLibraryGame,
+} from "../api/library";
 import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/toastContext";
 import "../styles/pages/GameDetails.css";
+
+const getTodayDateValue = () => {
+  const today = new Date();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+
+  return `${today.getFullYear()}-${month}-${day}`;
+};
 
 function GameDetails() {
   const { id } = useParams();
@@ -15,6 +27,10 @@ function GameDetails() {
 
   const [game, setGame] = useState(null);
   const [inLibrary, setInLibrary] = useState(false);
+  const [libraryEntry, setLibraryEntry] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState(null);
+  const [startedAt, setStartedAt] = useState("");
+  const [completedAt, setCompletedAt] = useState("");
   const [libraryLoading, setLibraryLoading] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -27,26 +43,51 @@ function GameDetails() {
     ["dropped", "Dropped"],
   ];
 
-  const addToLibrary = async (status) => {
+  const openStatusForm = (status) => {
+    if (status !== "playing" && status !== "completed") {
+      saveLibraryStatus(status);
+      return;
+    }
+
+    setSelectedStatus(status);
+    setStartedAt(libraryEntry?.startedAt?.slice(0, 10) || "");
+    setCompletedAt(libraryEntry?.completedAt?.slice(0, 10) || "");
+  };
+
+  const saveLibraryStatus = async (statusToSave = selectedStatus) => {
+    if (!statusToSave || libraryLoading) return;
+
     if (!user) {
       showToast("Sign in to add games to your library", "error");
       return;
     }
 
-    if (inLibrary || libraryLoading) return;
-
     try {
       setLibraryLoading(true);
-      await addGameToLibrary(game, status);
+      const dates =
+        statusToSave === "playing" || statusToSave === "completed"
+          ? { startedAt, completedAt }
+          : {};
+      const savedEntry = libraryEntry
+        ? await updateLibraryGame(libraryEntry._id, {
+            status: statusToSave,
+            ...dates,
+          })
+        : await addGameToLibrary(game, statusToSave, dates);
+      setLibraryEntry(savedEntry);
       setInLibrary(true);
-      showToast(`${game.name} added to your library as ${status}`);
+      setSelectedStatus(null);
+      showToast(
+        libraryEntry
+          ? `${game.name} updated to ${statusToSave}`
+          : `${game.name} added to your library as ${statusToSave}`,
+      );
     } catch (err) {
       if (err.response?.status === 409) {
         setInLibrary(true);
       }
       showToast(
-        err.response?.data?.message ||
-          "Could not add this game to your library",
+        err.response?.data?.message || "Could not update your library",
         "error",
       );
     } finally {
@@ -78,7 +119,9 @@ function GameDetails() {
 
       try {
         const library = await getLibrary();
-        setInLibrary(library.some((entry) => entry.gameId === Number(id)));
+        const entry = library.find((item) => item.gameId === Number(id));
+        setLibraryEntry(entry || null);
+        setInLibrary(Boolean(entry));
       } catch {
         showToast("Could not check your library status", "error");
       }
@@ -136,20 +179,20 @@ function GameDetails() {
                     className="primary-btn library-dropdown-trigger"
                     type="button"
                     aria-haspopup="menu"
-                    disabled={inLibrary || libraryLoading}
+                    disabled={libraryLoading}
                   >
-                    {inLibrary ? "Already in Library" : "Add to Library"}
-                    {!inLibrary && <span aria-hidden="true">▾</span>}
+                    {inLibrary ? "Update Library Entry" : "Add to Library"}
+                    <span aria-hidden="true">▾</span>
                   </button>
 
-                  {!inLibrary && (
+                  {!selectedStatus && (
                     <div className="library-dropdown-menu" role="menu">
                       {libraryStatuses.map(([status, label]) => (
                         <button
                           key={status}
                           type="button"
                           role="menuitem"
-                          onClick={() => addToLibrary(status)}
+                          onClick={() => openStatusForm(status)}
                           disabled={libraryLoading}
                         >
                           {label}
@@ -159,6 +202,83 @@ function GameDetails() {
                   )}
                 </div>
               </div>
+
+              {selectedStatus && (
+                <form
+                  className="library-date-form"
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    saveLibraryStatus();
+                  }}
+                >
+                  <h2>
+                    {libraryEntry ? "Update library entry" : "Log your dates"}
+                  </h2>
+                  <p>
+                    {selectedStatus === "playing"
+                      ? "When did you start playing this game?"
+                      : selectedStatus === "completed"
+                        ? "When did you complete this game?"
+                        : "Dates are available for playing and completed games."}
+                  </p>
+                  {selectedStatus === "playing" && (
+                    <label>
+                      Started playing
+                      <div className="date-input-row">
+                        <input
+                          type="date"
+                          value={startedAt}
+                          onChange={(event) => setStartedAt(event.target.value)}
+                        />
+                        <button
+                          type="button"
+                          className="secondary-btn today-btn"
+                          onClick={() => setStartedAt(getTodayDateValue())}
+                        >
+                          Today
+                        </button>
+                      </div>
+                    </label>
+                  )}
+                  {selectedStatus === "completed" && (
+                    <label>
+                      Completed
+                      <div className="date-input-row">
+                        <input
+                          type="date"
+                          value={completedAt}
+                          onChange={(event) =>
+                            setCompletedAt(event.target.value)
+                          }
+                        />
+                        <button
+                          type="button"
+                          className="secondary-btn today-btn"
+                          onClick={() => setCompletedAt(getTodayDateValue())}
+                        >
+                          Today
+                        </button>
+                      </div>
+                    </label>
+                  )}
+                  <div className="library-date-actions">
+                    <button
+                      type="button"
+                      className="secondary-btn"
+                      onClick={() => setSelectedStatus(null)}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="primary-btn"
+                      disabled={libraryLoading}
+                    >
+                      Save as {selectedStatus}
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
 
             <div className="hero-stats">
