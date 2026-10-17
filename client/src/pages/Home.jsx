@@ -1,3 +1,4 @@
+import { useAuth } from "../context/AuthContext";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -6,14 +7,21 @@ import {
   fetchTopRated,
 } from "../api/rawg";
 import "../styles/pages/Home.css";
+import { getLibraryStats } from "../api/library";
 
 function Home() {
+  const { user, loading: authLoading } = useAuth();
+
   const [popularGames, setPopularGames] = useState([]);
   const [newReleases, setNewReleases] = useState([]);
   const [topRatedGames, setTopRatedGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const featuredGame = popularGames[0];
+
+  const [stats, setStats] = useState(null);
+  const [statsLoading, setStatsLoading] = useState(true);
+  const [statsError, setStatsError] = useState(null);
 
   // Fetch all game data on component mount which get stored in state variables
   // We use Promise.all to fetch all categories in parallel for better performance
@@ -49,6 +57,50 @@ function Home() {
 
     fetchAllGames();
   }, []);
+
+  useEffect(() => {
+    // Wait until authentication has been resolved.
+    if (authLoading) return;
+
+    // Do not request private statistics when logged out.
+    if (!user) {
+      setStats(null);
+      setStatsLoading(false);
+      setStatsError(null);
+      return;
+    }
+
+    let cancelled = false;
+
+    const fetchStats = async () => {
+      setStatsLoading(true);
+      setStatsError(null);
+
+      try {
+        const data = await getLibraryStats();
+
+        if (!cancelled) {
+          setStats(data);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setStatsError(
+            error.response?.data?.message || "Unable to load your statistics.",
+          );
+        }
+      } finally {
+        if (!cancelled) {
+          setStatsLoading(false);
+        }
+      }
+    };
+
+    fetchStats();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user, authLoading]);
 
   if (loading)
     return (
@@ -162,7 +214,64 @@ function Home() {
           <div className="panel-heading">
             <h3>Your Stats</h3>
           </div>
-          <p className="signin-note">Sign in to display</p>
+
+          {authLoading || statsLoading ? (
+            <p className="signin-note">Loading your stats...</p>
+          ) : !user ? (
+            <p className="signin-note">
+              Sign in to view your personal game statistics.
+            </p>
+          ) : statsError ? (
+            <p className="signin-note" role="alert">
+              {statsError}
+            </p>
+          ) : stats ? (
+            <div className="stats-grid">
+              {stats.totalGames > 0 && (
+                <div className="stat-item">
+                  <p className="item-meta">Total Games</p>
+                  <p className="stat-value">{stats.totalGames}</p>
+                </div>
+              )}
+
+              {stats.completedGames > 0 && (
+                <div className="stat-item">
+                  <p className="item-meta">Completed</p>
+                  <p className="stat-value">{stats.completedGames}</p>
+                </div>
+              )}
+
+              {stats.byStatus?.playing > 0 && (
+                <div className="stat-item">
+                  <p className="item-meta">Playing</p>
+                  <p className="stat-value">{stats.byStatus.playing}</p>
+                </div>
+              )}
+
+              {stats.byStatus?.wishlist > 0 && (
+                <div className="stat-item">
+                  <p className="item-meta">Wishlist</p>
+                  <p className="stat-value">{stats.byStatus.wishlist}</p>
+                </div>
+              )}
+
+              {stats.byStatus?.backlog > 0 && (
+                <div className="stat-item">
+                  <p className="item-meta">Backlog</p>
+                  <p className="stat-value">{stats.byStatus.backlog}</p>
+                </div>
+              )}
+
+              {stats.byStatus?.dropped > 0 && (
+                <div className="stat-item">
+                  <p className="item-meta">Dropped</p>
+                  <p className="stat-value">{stats.byStatus.dropped}</p>
+                </div>
+              )}
+            </div>
+          ) : (
+            <p className="signin-note">No statistics available yet.</p>
+          )}
         </article>
 
         <article className="panel" id="friends-activity">
