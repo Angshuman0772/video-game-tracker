@@ -1,17 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
 
 :root {
-  --bg-main: #0e1016;
-  --bg-surface: #171b24;
-  --bg-panel: #232938;
-  --bg-accent: #2142e8;
-  --bg-accent-hover: #365cff;
-  --bg-secondary: #232938;
-  --bg-hover: #2d3550;
-  --border-color: rgba(148, 163, 184, 0.22);
-  --text-primary: #eef2ff;
-  --text-secondary: #aab3c7;
-  --accent-glow: rgba(33, 66, 232, 0.34);
+  --bg-main: #08090c;
+  --bg-surface: #101216;
+  --bg-panel: #151920;
+  --bg-accent: #315efb;
+  --bg-accent-hover: #4775ff;
+  --bg-secondary: #111419;
+  --bg-hover: #1b2230;
+  --border-color: #252b36;
+  --text-primary: #f1f3f8;
+  --text-secondary: #929baa;
 
   font-family:
     "Space Grotesk",

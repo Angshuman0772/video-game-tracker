@@ -4,7 +4,7 @@
   left: 0;
   width: 280px;
   height: 100vh;
-  background: rgba(23, 27, 36, 0.98);
+  background: rgba(16, 18, 22, 0.98);
   border-right: 1px solid var(--border-color);
   transform: translateX(-100%);
   transition: transform 0.3s ease;
@@ -85,6 +85,6 @@
 
 .sidebar-nav a:hover {
   color: var(--text-primary);
-  background: rgba(33, 66, 232, 0.14);
+  background: rgba(49, 94, 251, 0.1);
   border-left-color: var(--bg-accent-hover);
 }

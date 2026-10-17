@@ -10,15 +10,8 @@
   border-radius: 20px;
   padding: 1.75rem 1.75rem 2.5rem;
   margin-top: 1.5rem;
-  box-shadow:
-    0 24px 52px rgba(0, 0, 0, 0.38),
-    0 0 0 1px rgba(255, 255, 255, 0.02),
-    0 0 42px var(--accent-glow);
-  background: linear-gradient(
-    135deg,
-    rgba(23, 27, 36, 0.98),
-    rgba(35, 41, 56, 0.88)
-  );
+  box-shadow: 0 24px 52px rgba(0, 0, 0, 0.42);
+  background: var(--bg-surface);
 }
 
 .hero-content {
