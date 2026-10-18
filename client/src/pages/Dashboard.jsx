@@ -208,7 +208,7 @@ function Dashboard() {
                         </div>
                         <div className="library-card-meta">
                           <span>
-                            {game.rating ? `${game.rating}/10` : "Not rated"}
+                            {game.rating ? `${game.rating}/5` : "Not rated"}
                           </span>
                           {formatTrackedDate(game.startedAt, "Started") && (
                             <span>

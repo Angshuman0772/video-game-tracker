@@ -3,8 +3,16 @@ const mongoose = require("mongoose");
 
 const addGameToLibrary = async (req, res) => {
   try {
-    const { gameId, gameName, gameImage, status, startedAt, completedAt } =
-      req.body;
+    const {
+      gameId,
+      gameName,
+      gameImage,
+      status,
+      startedAt,
+      completedAt,
+      rating,
+      review,
+    } = req.body;
 
     const gameStatus = status || "wishlist";
 
@@ -17,6 +25,8 @@ const addGameToLibrary = async (req, res) => {
       startedAt,
       completedAt:
         gameStatus === "completed" ? completedAt || new Date() : undefined,
+      rating,
+      review,
     });
 
     res.status(201).json(game);
@@ -27,7 +37,7 @@ const addGameToLibrary = async (req, res) => {
       });
     }
 
-    res.status(400).json({
+    res.status(error.name === "ValidationError" ? 400 : 500).json({
       message: error.message,
     });
   }
@@ -83,30 +93,50 @@ const updateGameStatus = async (req, res) => {
     }
 
     if (game.user.toString() !== req.user.id) {
-      return res.status(401).json({
+      return res.status(403).json({
         message: "Unauthorized",
       });
     }
 
     const previousStatus = game.status;
-    const nextStatus = req.body.status;
 
-    game.status = nextStatus;
+    // Update status only when provided.
+    if (req.body.status !== undefined) {
+      game.status = req.body.status;
+    }
+
+    // Update dates only when provided.
     if (req.body.startedAt !== undefined) {
       game.startedAt = req.body.startedAt || undefined;
     }
+
     if (req.body.completedAt !== undefined) {
       game.completedAt = req.body.completedAt || undefined;
     }
-    if (nextStatus === "completed" && previousStatus !== "completed") {
+
+    if (req.body.status === "completed" && previousStatus !== "completed") {
       game.completedAt = req.body.completedAt || new Date();
+    }
+
+    // Update personal rating.
+    if (req.body.rating !== undefined) {
+      if (req.body.rating === "" || req.body.rating === null) {
+        game.rating = undefined;
+      } else {
+        game.rating = Number(req.body.rating);
+      }
+    }
+
+    // Update personal review.
+    if (req.body.review !== undefined) {
+      game.review = req.body.review;
     }
 
     await game.save();
 
     res.json(game);
   } catch (error) {
-    res.status(500).json({
+    res.status(error.name === "ValidationError" ? 400 : 500).json({
       message: error.message,
     });
   }
@@ -123,7 +153,7 @@ const removeGame = async (req, res) => {
     }
 
     if (game.user.toString() !== req.user.id) {
-      return res.status(401).json({
+      return res.status(403).json({
         message: "Unauthorized",
       });
     }

@@ -38,8 +38,20 @@ const userGamesSchema = new mongoose.Schema(
 
     rating: {
       type: Number,
-      min: 1,
-      max: 10,
+      min: 0.5,
+      max: 5,
+      validate: {
+        validator: (rating) => Number.isInteger(rating * 2),
+        message: "Rating must use 0.5-star increments",
+      },
+      default: undefined,
+    },
+
+    review: {
+      type: String,
+      trim: true,
+      maxlength: 2000,
+      default: "",
     },
 
     hoursPlayed: {

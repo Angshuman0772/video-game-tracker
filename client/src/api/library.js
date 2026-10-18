@@ -40,6 +40,41 @@ export const updateLibraryGame = async (id, updates) => {
   return response.data;
 };
 
+export const saveGameReview = async (
+  game,
+  libraryEntry,
+  rating,
+  review,
+  completedAt,
+) => {
+  const reviewData = {};
+
+  if (rating > 0) {
+    reviewData.rating = rating;
+  }
+  if (review) {
+    reviewData.review = review;
+  }
+
+  if (libraryEntry) {
+    return updateLibraryGame(libraryEntry._id, reviewData);
+  }
+
+  const response = await axios.post(
+    "/api/library",
+    {
+      gameId: game.id,
+      gameName: game.name,
+      gameImage: game.background_image,
+      status: "completed",
+      completedAt,
+      ...reviewData,
+    },
+    getAuthConfig(),
+  );
+  return response.data;
+};
+
 export const getLibraryStats = async () => {
   const response = await axios.get("/api/library/stats", getAuthConfig());
   return response.data;
