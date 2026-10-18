@@ -1,167 +1,196 @@
-# 🎮 Checkpoint
+# Checkpoint
 
-**Checkpoint** is a modern game tracking web app built with React.
-Discover titles, organize your library, and track your gaming progress — all in a clean, structured dashboard.
+Checkpoint is a full-stack game tracking app for discovering, organizing, and reviewing games in one place. Built with React on the frontend and Express + MongoDB on the backend, it helps users browse games from RAWG, save titles to a personal library, and track status, dates, ratings, and progress.
 
-Inspired by the simplicity of Letterboxd, but designed for video games.
+## Overview
 
----
+The app combines a modern gaming discovery experience with personal library management. Users can:
 
-## 🚧 Status
+- Browse popular and newly released games
+- Search for games by title
+- View detailed game pages with metadata from RAWG
+- Register and log in to a personal account
+- Save games to a library with statuses such as wishlist, backlog, playing, completed, and dropped
+- Track completion dates, start dates, ratings, and notes
+- Monitor dashboard stats such as total games and completion rate
 
-This project is currently a **Work in Progress (WIP)**.
+## Features
 
-The current focus is on:
+### Frontend
 
-* Frontend architecture
-* Scalable component structure
-* Clean design system
-* Preparing for API and backend integration
+- Responsive dark-themed UI
+- Game discovery pages for popular games and new releases
+- Search results and detail pages
+- Auth screens for login and registration
+- User dashboard with library summaries and categorized game sections
+- Toast notifications and loading states
 
----
+### Backend
 
-## ✨ Features (Current)
+- JWT-based authentication
+- User registration and login flow
+- Protected library API routes
+- Game library CRUD operations
+- MongoDB persistence via Mongoose
+- Library stats endpoint for dashboard summaries
 
-* Dark-themed dashboard UI
-* Featured Game hero section
-* Popular Games list
-* New Releases list
-* Top Rated section with rating badges
-* Reusable card components
-* Responsive layout foundation
-* Design token-based theming system
+### Library Tracking
 
----
+Each saved game can include:
 
-## 🛠 Planned Features
+- Game ID and cover image
+- Status: wishlist, backlog, playing, completed, dropped
+- Started/completed dates
+- Personal rating
+- Review text
+- Timestamp metadata
 
-### Phase 1 — API Integration
+## Tech Stack
 
-* Integrate RAWG API
-* Dynamic game data
-* Game detail pages (`/game/:id`)
-* Search functionality
-* Loading and error states
+### Frontend
 
-### Phase 2 — Local Tracking
+- React 19
+- Vite
+- React Router
+- Axios
+- Lucide React
 
-* Add to Library
-* Track play status (Playing / Completed)
-* Start & finish dates
-* 1–5 star ratings
-* Short text reviews (stored locally)
+### Backend
 
-### Phase 3 — Full Stack
+- Node.js
+- Express
+- MongoDB with Mongoose
+- JWT authentication
+- bcryptjs
 
-* User authentication
-* Database persistence
-* Public reviews
-* User profiles
-* Social features
+### APIs
 
----
+- RAWG Video Games Database API
 
-## 🧱 Tech Stack
+## Project Structure
 
-**Frontend**
-
-* React (Vite)
-* React Router
-* CSS Custom Properties (Design Tokens)
-
-**Planned Backend**
-
-* Node.js + Express (or similar)
-* PostgreSQL / MongoDB
-* JWT Authentication
-
----
-
-## 🎨 Design System
-
-Checkpoint uses a structured dark theme built with CSS variables.
-
-```css
---bg-main: #190019;
---bg-surface: #2b124c;
---bg-panel: #522b5b;
---bg-accent: #854f6c;
---text-primary: #fbe4d8;
---text-secondary: #dfb6b2;
+```text
+video-game-tracker/
+├── client/                 # React frontend
+│   ├── src/
+│   ├── package.json
+│   └── vite.config.js
+├── server/                 # Express API
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── package.json
+│   └── server.js
+├── README.md
+└── .gitignore
 ```
 
-### Design Principles
+## Environment Variables
 
-* Layered dark theme
-* Clear visual hierarchy
-* Minimal and distraction-free layout
-* Reusable UI components
-* Scalable architecture
+Create a `.env` file inside the `server/` folder with:
 
----
-
-## 📁 Project Structure
-
-```
-src/
-│
-├── api/              // API utilities (planned)
-├── components/       // Reusable UI components
-│   ├── common/
-│   └── game/
-├── pages/            // Route-level components
-├── hooks/            // Custom React hooks
-├── context/          // Global state
-├── utils/            // Helper functions
-│
-├── App.jsx
-└── main.jsx
+```env
+PORT=5000
+MONGO_URI=mongodb://localhost:27017/video-game-tracker
+JWT_SECRET=your_super_secret_key
 ```
 
-This structure is designed to scale cleanly as the project grows into a full-stack application.
+Create a `.env` file inside the `client/` folder with:
 
----
+```env
+VITE_RAWG_API_KEY=your_rawg_api_key
+```
 
-## 🚀 Getting Started
+You can get a RAWG API key from the official RAWG website.
 
-### 1️⃣ Install Dependencies
+## Getting Started
+
+### 1. Install frontend dependencies
 
 ```bash
+cd client
 npm install
 ```
 
-### 2️⃣ Run Development Server
+### 2. Install backend dependencies
+
+```bash
+cd ../server
+npm install
+```
+
+### 3. Start the backend
 
 ```bash
 npm run dev
 ```
 
-App runs at:
+The API will run on:
 
+```text
+http://localhost:5000
 ```
+
+### 4. Start the frontend
+
+```bash
+cd ../client
+npm run dev
+```
+
+The app will run on:
+
+```text
 http://localhost:5173
 ```
 
----
+## API Overview
 
-## 🎯 Project Goals
+### Authentication
 
-* Build a production-style React application
-* Practice scalable frontend architecture
-* Integrate external APIs
-* Implement authentication and persistence
-* Develop a portfolio-ready full-stack project
+- `POST /api/auth/register` — create a new user
+- `POST /api/auth/login` — log in and receive a JWT
 
----
+### Library
 
-## 📌 Long-Term Vision
+- `GET /api/library` — fetch the authenticated user's games
+- `GET /api/library/stats` — fetch library statistics
+- `POST /api/library` — add a game to the library
+- `PUT /api/library/:id` — update a tracked game
+- `DELETE /api/library/:id` — remove a game from the library
 
-Checkpoint aims to become:
+## Usage Notes
 
-* A centralized hub for tracking games across platforms
-* A clean alternative to cluttered gaming databases
-* A social review ecosystem for gamers
-* A polished full-stack portfolio project
+- Users must sign in before accessing private library routes.
+- The app uses the RAWG API for discovery and game metadata.
+- Library data is stored in MongoDB, allowing persistent game tracking across sessions.
 
----
+## Current Status
+
+This project is an active full-stack MVP focused on:
+
+- game discovery
+- user authentication
+- personal library tracking
+- dashboard analytics
+
+## Roadmap
+
+Planned improvements include:
+
+- richer review and profile features
+- better filtering and sorting in the dashboard
+- improved game detail interactions
+- social/community features
+- polish and optimization across the app
+
+## License
+
+This project is currently unlicensed unless otherwise specified.
+
+## Contributing
+
+Contributions are welcome. If you'd like to improve the app, feel free to fork the repository and open a pull request with your changes.
 
