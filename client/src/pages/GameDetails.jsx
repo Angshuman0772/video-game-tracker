@@ -7,10 +7,12 @@ import {
   getLibrary,
   saveGameReview,
   updateLibraryGame,
+  removeGameFromLibrary,
 } from "../api/library";
 import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/toastContext";
 import "../styles/pages/GameDetails.css";
+import { X } from "lucide-react";
 
 const getTodayDateValue = () => {
   const today = new Date();
@@ -38,6 +40,7 @@ function GameDetails() {
   const [reviewSaving, setReviewSaving] = useState(false);
   const [userRating, setUserRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
+  const [removingGame, setRemovingGame] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -142,6 +145,38 @@ function GameDetails() {
     }
   };
 
+  const handleRemoveFromLibrary = async () => {
+    if (!libraryEntry?._id || removingGame) return;
+
+    const confirmed = window.confirm(
+      `Remove "${game.name}" from your library? This will also delete your saved rating and review.`,
+    );
+
+    if (!confirmed) return;
+
+    try {
+      setRemovingGame(true);
+
+      await removeGameFromLibrary(libraryEntry._id);
+
+      setLibraryEntry(null);
+      setInLibrary(false);
+      setUserRating(0);
+      setReviewText("");
+      setSelectedStatus(null);
+      setLibraryMenuOpen(false);
+
+      showToast(`${game.name} removed from your library`);
+    } catch (error) {
+      showToast(
+        error.response?.data?.message || "Could not remove this game",
+        "error",
+      );
+    } finally {
+      setRemovingGame(false);
+    }
+  };
+
   useEffect(() => {
     const loadGameDetails = async () => {
       try {
@@ -231,130 +266,146 @@ function GameDetails() {
                     Back
                   </Link>
 
-                  <div
-                    className="library-dropdown"
-                    onMouseEnter={() => setLibraryMenuOpen(true)}
-                    onMouseLeave={() => setLibraryMenuOpen(false)}
-                    onFocus={() => setLibraryMenuOpen(true)}
-                    onBlur={(event) => {
-                      if (!event.currentTarget.contains(event.relatedTarget)) {
-                        setLibraryMenuOpen(false);
-                      }
-                    }}
-                  >
-                    <button
-                      className="primary-btn library-dropdown-trigger"
-                      type="button"
-                      aria-haspopup="menu"
-                      disabled={libraryLoading}
+                  <div className="library-action-group">
+                    <div
+                      className="library-dropdown"
+                      onMouseEnter={() => setLibraryMenuOpen(true)}
+                      onMouseLeave={() => setLibraryMenuOpen(false)}
+                      onFocus={() => setLibraryMenuOpen(true)}
+                      onBlur={(event) => {
+                        if (
+                          !event.currentTarget.contains(event.relatedTarget)
+                        ) {
+                          setLibraryMenuOpen(false);
+                        }
+                      }}
                     >
-                      {inLibrary ? "Update Library Entry" : "Add to Library"}
-                      <span aria-hidden="true">▾</span>
-                    </button>
-
-                    {!selectedStatus && libraryMenuOpen && (
-                      <div
-                        className="library-dropdown-menu"
-                        role="menu"
+                      <button
+                        className="primary-btn library-dropdown-trigger"
+                        type="button"
+                        aria-haspopup="menu"
+                        disabled={libraryLoading}
                       >
-                        {libraryStatuses.map(([status, label]) => (
-                          <button
-                            key={status}
-                            type="button"
-                            role="menuitem"
-                            onClick={() => openStatusForm(status)}
-                            disabled={libraryLoading}
-                          >
-                            {label}
-                          </button>
-                        ))}
-                      </div>
-                    )}
+                        {inLibrary ? "Update Library Entry" : "Add to Library"}
+                        <span aria-hidden="true">▾</span>
+                      </button>
 
-                    {selectedStatus && (
-                      <form
-                        className="library-date-form"
-                        onSubmit={(event) => {
-                          event.preventDefault();
-                          saveLibraryStatus();
-                        }}
-                      >
-                        <h2>
-                          {libraryEntry
-                            ? "Update library entry"
-                            : "Log your dates"}
-                        </h2>
-                        <p>
-                          {selectedStatus === "playing"
-                            ? "When did you start playing this game?"
-                            : selectedStatus === "completed"
-                              ? "When did you complete this game?"
-                              : "Dates are available for playing and completed games."}
-                        </p>
-                        {selectedStatus === "playing" && (
-                          <label>
-                            Started playing
-                            <div className="date-input-row">
-                              <input
-                                type="date"
-                                value={startedAt}
-                                onChange={(event) =>
-                                  setStartedAt(event.target.value)
-                                }
-                              />
-                              <button
-                                type="button"
-                                className="secondary-btn today-btn"
-                                onClick={() =>
-                                  setStartedAt(getTodayDateValue())
-                                }
-                              >
-                                Today
-                              </button>
-                            </div>
-                          </label>
-                        )}
-                        {selectedStatus === "completed" && (
-                          <label>
-                            Completed
-                            <div className="date-input-row">
-                              <input
-                                type="date"
-                                value={completedAt}
-                                onChange={(event) =>
-                                  setCompletedAt(event.target.value)
-                                }
-                              />
-                              <button
-                                type="button"
-                                className="secondary-btn today-btn"
-                                onClick={() =>
-                                  setCompletedAt(getTodayDateValue())
-                                }
-                              >
-                                Today
-                              </button>
-                            </div>
-                          </label>
-                        )}
-                        <div className="library-date-actions">
-                          <button
-                            type="button"
-                            className="secondary-btn"
-                            onClick={() => setSelectedStatus(null)}
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            type="submit"
-                            className="primary-btn"
-                            disabled={libraryLoading}
-                          >
-                            Save as {selectedStatus}
-                          </button>
+                      {!selectedStatus && libraryMenuOpen && (
+                        <div className="library-dropdown-menu" role="menu">
+                          {libraryStatuses.map(([status, label]) => (
+                            <button
+                              key={status}
+                              type="button"
+                              role="menuitem"
+                              onClick={() => openStatusForm(status)}
+                              disabled={libraryLoading}
+                            >
+                              {label}
+                            </button>
+                          ))}
                         </div>
-                      </form>
-                    )}
+                      )}
+
+                      {selectedStatus && (
+                        <form
+                          className="library-date-form"
+                          onSubmit={(event) => {
+                            event.preventDefault();
+                            saveLibraryStatus();
+                          }}
+                        >
+                          <h2>
+                            {libraryEntry
+                              ? "Update library entry"
+                              : "Log your dates"}
+                          </h2>
+                          <p>
+                            {selectedStatus === "playing"
+                              ? "When did you start playing this game?"
+                              : selectedStatus === "completed"
+                                ? "When did you complete this game?"
+                                : "Dates are available for playing and completed games."}
+                          </p>
+                          {selectedStatus === "playing" && (
+                            <label>
+                              Started playing
+                              <div className="date-input-row">
+                                <input
+                                  type="date"
+                                  value={startedAt}
+                                  onChange={(event) =>
+                                    setStartedAt(event.target.value)
+                                  }
+                                />
+                                <button
+                                  type="button"
+                                  className="secondary-btn today-btn"
+                                  onClick={() =>
+                                    setStartedAt(getTodayDateValue())
+                                  }
+                                >
+                                  Today
+                                </button>
+                              </div>
+                            </label>
+                          )}
+                          {selectedStatus === "completed" && (
+                            <label>
+                              Completed
+                              <div className="date-input-row">
+                                <input
+                                  type="date"
+                                  value={completedAt}
+                                  onChange={(event) =>
+                                    setCompletedAt(event.target.value)
+                                  }
+                                />
+                                <button
+                                  type="button"
+                                  className="secondary-btn today-btn"
+                                  onClick={() =>
+                                    setCompletedAt(getTodayDateValue())
+                                  }
+                                >
+                                  Today
+                                </button>
+                              </div>
+                            </label>
+                          )}
+                          <div className="library-date-actions">
+                            <button
+                              type="button"
+                              className="secondary-btn"
+                              onClick={() => setSelectedStatus(null)}
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              type="submit"
+                              className="primary-btn"
+                              disabled={libraryLoading}
+                            >
+                              Save as {selectedStatus}
+                            </button>
+                          </div>
+                        </form>
+                      )}
+                    </div>
+
+                    <div
+                      className={`library-remove-slot${inLibrary && libraryEntry ? " is-visible" : ""}`}
+                    >
+                      {inLibrary && libraryEntry && (
+                        <button
+                          type="button"
+                          className="remove-library-btn"
+                          onClick={handleRemoveFromLibrary}
+                          disabled={removingGame || libraryLoading}
+                        >
+                          {removingGame ? "Removing..." : "Remove from Library"}
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -370,7 +421,6 @@ function GameDetails() {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>

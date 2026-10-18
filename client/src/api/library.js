@@ -79,3 +79,9 @@ export const getLibraryStats = async () => {
   const response = await axios.get("/api/library/stats", getAuthConfig());
   return response.data;
 };
+
+export const removeGameFromLibrary = async (id) => {
+  const response = await axios.delete(`/api/library/${id}`, getAuthConfig());
+
+  return response.data;
+};
