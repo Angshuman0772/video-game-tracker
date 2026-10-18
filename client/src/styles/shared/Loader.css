@@ -1,19 +1,23 @@
 .loading-state {
-  min-height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  min-height: calc(100vh - 7rem);
+  min-height: calc(100svh - 7rem);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
 }
 
 .animated-loader {
-  width: 230px; /* Increased width to account for the gaps */
+  width: 145px;
   height: 100px;
-
   position: relative;
-  margin: 0 auto;
-
+  margin: 0;
   perspective: 1000px;
   transform-style: preserve-3d;
+}
+
+.animated-loader:has(.line:nth-child(7)) {
+  width: 195px;
 }
 
 /* The line */
